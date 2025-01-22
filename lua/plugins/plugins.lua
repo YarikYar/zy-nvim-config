@@ -1,4 +1,28 @@
 local plugins = {
+{
+  "ray-x/go.nvim",
+  dependencies = {  -- optional packages
+    "ray-x/guihua.lua",
+    "neovim/nvim-lspconfig",
+    "nvim-treesitter/nvim-treesitter",
+  },
+  config = function()
+    require("go").setup()
+  end,
+  event = {"CmdlineEnter"},
+  ft = {"go", 'gomod'},
+  build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+},
+  {
+    'nvimdev/lspsaga.nvim',
+    config = function()
+        require('lspsaga').setup({})
+    end,
+    dependencies = {
+        'nvim-treesitter/nvim-treesitter', -- optional
+        'nvim-tree/nvim-web-devicons',     -- optional
+    }
+},
   {
   "williamboman/mason.nvim",
   opts = {
@@ -27,7 +51,7 @@ local plugins = {
     -- setting the keybinding for LazyGit with 'keys' is recommended in
     -- order to load the plugin when the command is run for the first time
     keys = {
-        { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" }
+        { "<leader>g", "<cmd>LazyGit<cr>", desc = "LazyGit" }
     }
 },
     {
@@ -39,6 +63,17 @@ local plugins = {
 		},
 	  keys = {
       { "<leader>ld", "<cmd>LazyDocker<cr>", desc = "LazyDocker"}
+    }
+  },
+    {
+		"YarikYar/posting.nvim",
+		event = "VeryLazy",
+		opts = {}, -- automatically calls `require("lazydocker").setup()`
+		dependencies = {
+			"akinsho/toggleterm.nvim",
+		},
+	  keys = {
+      { "<leader>lp", "<cmd>Posting<cr>", desc = "Posting"}
     }
   },
   {
@@ -57,6 +92,7 @@ local plugins = {
     ft = "python",
     dependencies = {
       "mfussenegger/nvim-dap",
+      "theHamsta/nvim-dap-virtual-text",
       "rcarriga/nvim-dap-ui",
     },
     config = function(_, opts)
